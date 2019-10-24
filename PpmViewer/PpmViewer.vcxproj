@@ -283,6 +283,12 @@
     <ClInclude Include="PpmDocument.hpp" />
     <ClInclude Include="PpmWindow.hpp" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="blocks.ppm" />
+    <None Include="bunny.ppm" />
+    <None Include="RGB.ppm" />
+    <None Include="tinypix.ppm" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

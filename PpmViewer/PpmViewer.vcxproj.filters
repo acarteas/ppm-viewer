@@ -480,4 +480,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="bunny.ppm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="blocks.ppm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="tinypix.ppm">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="RGB.ppm">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
 </Project>

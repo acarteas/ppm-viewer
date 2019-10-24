@@ -13,7 +13,9 @@ private:
 		{"Quit",	FL_CTRL + FL_F + 4, quitCallback, 0},
 	{0}
 	};
-	PpmDocument doc;
+	Fl_RGB_Image* _image = nullptr;
+	PpmDocument* _doc = nullptr;
+	Fl_Box* _image_box = nullptr;
 
 	static void openFileCallback(Fl_Widget* widget, void* params)
 	{
@@ -24,14 +26,18 @@ private:
 			PpmWindow* current_window = (PpmWindow*)widget;
 			if (current_window != nullptr)
 			{
-				current_window->getActiveDocument().open(text);
+				current_window->setActiveDocument(new PpmDocument{ text });
+				current_window->loadImage();
+				current_window->redraw();
 			}
-			
+
 		}
 	}
 
-	static void quitCallback(Fl_Widget*, void*) { exit(0); }
-
+	static void quitCallback(Fl_Widget*, void*)
+	{
+		exit(0);
+	}
 
 public:
 	PpmWindow(int x, int y, int w, int h, const char* l)
@@ -39,6 +45,11 @@ public:
 	{
 		_menu = new Fl_Menu_Bar(0, 0, w, 30);
 		_menu->menu(_top_bar);
+
+		_image_box = new Fl_Box{ 0, 0, w, h };
+
+		_doc = new PpmDocument{ "bunny.ppm" };
+		loadImage();
 	}
 
 	~PpmWindow()
@@ -47,8 +58,31 @@ public:
 		_menu = nullptr;
 	}
 
-	PpmDocument& getActiveDocument()
+	void loadImage()
 	{
-		return doc;
+		/*if (_image != nullptr)
+		{
+			delete _image;
+		}*/
+		_image = new Fl_RGB_Image(&_doc->getRawBytes()[0], _doc->getWidth(), _doc->getHeight(), 3);
+		
+		_image_box->image(_image);
+		
+	}
+
+	void setActiveDocument(PpmDocument* doc)
+	{
+		/*
+		if (_doc != nullptr)
+		{
+			delete _doc;
+		}
+		*/
+		_doc = doc;
+	}
+
+	PpmDocument* getActiveDocument()
+	{
+		return _doc;
 	}
 };

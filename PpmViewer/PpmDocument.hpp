@@ -36,6 +36,7 @@ private:
 	int _color_depth = 0;
 	string _file_name;
 	vector<Pixel> _rgb_data;
+	vector<uchar> _raw_bytes;
 
 	void checkDocumentValidity(istream& stream)
 	{
@@ -58,6 +59,18 @@ public:
 	//have a file name
 	PpmDocument()
 	{
+	}
+
+	vector<unsigned char>& getRawBytes()
+	{
+		_raw_bytes.clear();
+		for (auto& pixel : _rgb_data)
+		{
+			_raw_bytes.push_back((unsigned char)pixel.red);
+			_raw_bytes.push_back((unsigned char)pixel.green);
+			_raw_bytes.push_back((unsigned char)pixel.blue);
+		}
+		return _raw_bytes;
 	}
 
 	void open(string file_name)
@@ -92,11 +105,14 @@ public:
 				istringstream numbers_str{ raw_data[i] };
 				while (numbers_str.eof() == false)
 				{
-					int next_number = -1;
 					Pixel p;
 					numbers_str >> p;
 					checkDocumentValidity(numbers_str);
-					_rgb_data.push_back(p);
+					if (p.red >= 0)
+					{
+						_rgb_data.push_back(p);
+					}
+					
 				}
 			}
 		}
