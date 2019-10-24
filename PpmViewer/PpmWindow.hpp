@@ -1,5 +1,8 @@
 #pragma once
 #include "FltkIncludes.h"
+#include "FileBrowser.hpp"
+#include "PpmDocument.hpp"
+
 class PpmWindow : public Fl_Double_Window
 {
 private:
@@ -10,20 +13,20 @@ private:
 		{"Quit",	FL_CTRL + FL_F + 4, quitCallback, 0},
 	{0}
 	};
+	PpmDocument doc;
 
-	static void openFileCallback(Fl_Widget*, void*) 
-	{ 
-		Fl_Native_File_Chooser fnfc;
-		fnfc.title("Pick a file");
-		fnfc.type(Fl_Native_File_Chooser::BROWSE_FILE);
-		fnfc.filter("Text\t*.txt\n"
-			"C Files\t*.{cxx,h,c}");
-		fnfc.directory("/var/tmp");           // default directory to use
-		// Show native chooser
-		switch (fnfc.show()) {
-		case -1: printf("ERROR: %s\n", fnfc.errmsg());    break;  // ERROR
-		case  1: printf("CANCEL\n");                      break;  // CANCEL
-		default: printf("PICKED: %s\n", fnfc.filename()); break;  // FILE CHOSEN
+	static void openFileCallback(Fl_Widget* widget, void* params)
+	{
+		FileBrowser browser{};
+		if (browser.OpenFileBrowser() == FileResult::OPEN)
+		{
+			string text = browser.getSelectedFile();
+			PpmWindow* current_window = (PpmWindow*)widget;
+			if (current_window != nullptr)
+			{
+				current_window->getActiveDocument().open(text);
+			}
+			
 		}
 	}
 
@@ -42,5 +45,10 @@ public:
 	{
 		delete _menu;
 		_menu = nullptr;
+	}
+
+	PpmDocument& getActiveDocument()
+	{
+		return doc;
 	}
 };

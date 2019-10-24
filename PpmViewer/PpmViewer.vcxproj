@@ -77,6 +77,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <PreprocessorDefinitions>WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -89,6 +90,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,9 +127,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="FileHelpers.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="FileBrowser.hpp" />
+    <ClInclude Include="FileHelpers.hpp" />
     <ClInclude Include="FltkIncludes.h" />
     <ClInclude Include="FL\abi-version.h" />
     <ClInclude Include="FL\dirent.h" />
@@ -274,6 +279,8 @@
     <ClInclude Include="FL\platform.H" />
     <ClInclude Include="FL\win32.H" />
     <ClInclude Include="FL\x.H" />
+    <ClInclude Include="Pixel.hpp" />
+    <ClInclude Include="PpmDocument.hpp" />
     <ClInclude Include="PpmWindow.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
