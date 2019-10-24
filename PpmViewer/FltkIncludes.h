@@ -16,6 +16,7 @@
 #include "FL/Fl_Menu_Item.H"
 #include "FL/fl_draw.H"
 #include "FL/math.h"
+#include "FL/Fl_Native_File_Chooser.H"
 #else
 #include <FL/Fl.H>
 #include <FL/Fl_Box.H>
@@ -30,6 +31,7 @@
 #include <FL/Fl_Sys_Menu_Bar.H>
 #include <FL/Fl_Menu_Item.H>
 #include <FL/math.H>
+#include <FL/Fl_Native_File_Chooser.H>
 #endif // _WIN32
 
 #ifdef _MSC_VER

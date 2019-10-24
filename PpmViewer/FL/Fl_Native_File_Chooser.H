@@ -47,7 +47,7 @@ typedef void fl_BROWSEINFOW;
 #if ! defined(__APPLE__) && !defined(WIN32)
 #  include <FL/Fl_File_Chooser.H>
 #else
-#  include <FL/filename.H>	// FL_EXPORT
+#  include "FL/filename.H"	// FL_EXPORT
 #endif
 
 class Fl_FLTK_File_Chooser;
