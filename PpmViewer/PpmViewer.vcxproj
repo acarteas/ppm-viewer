@@ -285,7 +285,7 @@
     <ClInclude Include="Pixel.hpp" />
     <ClInclude Include="PpmDocument.hpp" />
     <ClInclude Include="PpmWindow.hpp" />
-    <ClInclude Include="RemoveRedEffect.h" />
+    <ClInclude Include="RemoveRedEffect.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="blocks.ppm" />

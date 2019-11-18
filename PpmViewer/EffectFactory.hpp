@@ -1,5 +1,5 @@
 #pragma once
-#include "RemoveRedEffect.h"
+#include "RemoveRedEffect.hpp"
 
 enum class ImageEffectType
 {

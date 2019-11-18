@@ -482,10 +482,10 @@
     <ClInclude Include="ImageEffect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="RemoveRedEffect.h">
+    <ClInclude Include="EffectFactory.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EffectFactory.hpp">
+    <ClInclude Include="RemoveRedEffect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
