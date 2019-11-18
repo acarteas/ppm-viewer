@@ -35,7 +35,7 @@ private:
 	int _height = 0;
 	int _color_depth = 0;
 	string _file_name;
-	vector<Pixel> _rgb_data;
+	vector<vector<Pixel>> _rgb_data;
 	vector<uchar> _raw_bytes;
 
 	void checkDocumentValidity(istream& stream)
@@ -64,11 +64,14 @@ public:
 	vector<unsigned char>& getRawBytes()
 	{
 		_raw_bytes.clear();
-		for (auto& pixel : _rgb_data)
+		for (auto& row : _rgb_data)
 		{
-			_raw_bytes.push_back((unsigned char)pixel.red);
-			_raw_bytes.push_back((unsigned char)pixel.green);
-			_raw_bytes.push_back((unsigned char)pixel.blue);
+			for (auto& pixel : row)
+			{
+				_raw_bytes.push_back((unsigned char)pixel.red);
+				_raw_bytes.push_back((unsigned char)pixel.green);
+				_raw_bytes.push_back((unsigned char)pixel.blue);
+			}
 		}
 		return _raw_bytes;
 	}
@@ -100,19 +103,33 @@ public:
 			checkDocumentValidity(line);
 			
 			//process data
+			int col_counter = 0;
+			int row_counter = 0;
+			_rgb_data.resize(_height);
 			for (int i = 3; i < raw_data.size(); i++)
 			{
-				istringstream numbers_str{ raw_data[i] };
-				while (numbers_str.eof() == false)
+				if (raw_data[i].length() > 0)
 				{
-					Pixel p;
-					numbers_str >> p;
-					checkDocumentValidity(numbers_str);
-					if (p.red >= 0)
+					_rgb_data[row_counter].resize(_width);
+					istringstream numbers_str{ raw_data[i] };
+					while (numbers_str.eof() == false)
 					{
-						_rgb_data.push_back(p);
+						Pixel p;
+						numbers_str >> p;
+						checkDocumentValidity(numbers_str);
+						if (p.red >= 0)
+						{
+							_rgb_data[row_counter][col_counter] = p;
+							col_counter++;
+						}
+
+						if (col_counter >= _width)
+						{
+							col_counter = 0;
+							row_counter++;
+						}
+
 					}
-					
 				}
 			}
 		}
@@ -161,6 +178,11 @@ public:
 		}
 	}
 
+	vector<Pixel>& operator[](const int index)
+	{
+		return _rgb_data[index];
+	}
+
 	//friends are allowed to access private variables
 	friend ostream& operator<<(ostream& stream, const PpmDocument& doc);
 };
@@ -171,18 +193,21 @@ ostream& operator<<(ostream& stream, const PpmDocument& doc)
 	stream << doc.getWidth() << " " << doc.getHeight() << endl;
 	stream << doc.getColorDepth() << endl;
 	int pixel_counter = 1;
-	for (auto pixel : doc._rgb_data)
+	for (auto& row : doc._rgb_data)
 	{
-		stream << pixel;
-		pixel_counter++;
-		if (pixel_counter > doc.getWidth())
+		for (auto& pixel : row)
 		{
-			stream << endl;
-			pixel_counter = 1;
-		}
-		else
-		{
-			stream << " ";
+			stream << pixel;
+			pixel_counter++;
+			if (pixel_counter > doc.getWidth())
+			{
+				stream << endl;
+				pixel_counter = 1;
+			}
+			else
+			{
+				stream << " ";
+			}
 		}
 	}
 	return stream;

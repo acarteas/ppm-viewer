@@ -24,7 +24,7 @@ istream& operator>>(istream& stream, Pixel& pixel)
 	return stream;
 }
 
-ostream& operator<<(ostream& stream, Pixel& pixel)
+ostream& operator<<(ostream& stream, const Pixel& pixel)
 {
 	stream << pixel.red << " " << pixel.green << " " << pixel.blue;
 	return stream;

@@ -94,6 +94,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>fltk.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -131,6 +132,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="EffectFactory.hpp" />
     <ClInclude Include="FileBrowser.hpp" />
     <ClInclude Include="FileHelpers.hpp" />
     <ClInclude Include="FltkIncludes.h" />
@@ -279,9 +281,11 @@
     <ClInclude Include="FL\platform.H" />
     <ClInclude Include="FL\win32.H" />
     <ClInclude Include="FL\x.H" />
+    <ClInclude Include="ImageEffect.hpp" />
     <ClInclude Include="Pixel.hpp" />
     <ClInclude Include="PpmDocument.hpp" />
     <ClInclude Include="PpmWindow.hpp" />
+    <ClInclude Include="RemoveRedEffect.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="blocks.ppm" />

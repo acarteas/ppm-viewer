@@ -2,19 +2,25 @@
 #include "FltkIncludes.h"
 #include "FileBrowser.hpp"
 #include "PpmDocument.hpp"
+#include "EffectFactory.hpp"
 
 #include <cmath>
 using namespace std;
+
 
 class PpmWindow : public Fl_Double_Window
 {
 private:
 	Fl_Menu_Bar* _menu = nullptr;
-	Fl_Menu_Item _top_bar[5] = {
+	Fl_Menu_Item _top_bar[8] = {
 		{"&File", 0, 0, 0, FL_SUBMENU},
 		{"Open", FL_CTRL + 'o', openFileCallback, this},
 		{"Quit",	FL_CTRL + FL_F + 4, quitCallback, 0},
-	{0}
+		{0}, //this ends a menu group; end of File dropdown
+		{"&Effects", 0, 0, 0, FL_SUBMENU},
+		{"Remove Red", 0, applyEffect, (void*)ImageEffectType::RemoveRed},
+		{"Remove Green", 0, applyEffect, (void*)ImageEffectType::RemoveGreen},
+		{0} //end of Effects dropdown
 	};
 	Fl_RGB_Image* _image = nullptr;
 	PpmDocument* _doc = nullptr;
@@ -42,6 +48,20 @@ private:
 	static void quitCallback(Fl_Widget*, void*)
 	{
 		exit(0);
+	}
+
+	static void applyEffect(Fl_Widget* widget, void* params)
+	{
+		//from https://www.fltk.org/articles.php?L379+I0+TFAQ+P1+Q
+		Fl_Widget* p = widget->parent();
+		while (p->parent()) p = p->parent();
+		PpmWindow* window = (PpmWindow*)p;
+		ImageEffectType effect_type = (ImageEffectType)(int)params;
+		ImageEffect* effect = EffectFactory::createEffect(effect_type);
+		effect->applyEffect(*window->getActiveDocument());
+		window->loadImage();
+		window->redraw();
+		delete effect;
 	}
 
 public:
@@ -73,7 +93,7 @@ public:
 		size(width, _doc->getHeight() + MENU_HEIGHT);
 		_image_box->size(width, _doc->getHeight());
 		_image_box->position(0, MENU_HEIGHT);
-		
+
 	}
 
 	void setActiveDocument(PpmDocument* doc)

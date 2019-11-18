@@ -1,3 +1,7 @@
+#ifdef WIN32_
+#define WIN32 1
+#endif
+
 
 #include "PpmWindow.hpp"
 int main(int argc, char* argv[])

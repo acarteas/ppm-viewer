@@ -479,6 +479,15 @@
     <ClInclude Include="PpmDocument.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ImageEffect.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RemoveRedEffect.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EffectFactory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="bunny.ppm">
