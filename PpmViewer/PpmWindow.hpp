@@ -37,11 +37,18 @@ private:
 			PpmWindow* current_window = (PpmWindow*)params;
 			if (current_window != nullptr)
 			{
-				current_window->setActiveDocument(new PpmDocument{ text });
-				current_window->loadImage();
-				current_window->redraw();
+				PpmDocument* doc = new PpmDocument{ text };
+				PpmWindow* new_win = new PpmWindow{
+				doc,
+				current_window->x() + 10,
+				current_window->y() + 10,
+				doc->getWidth(),  
+				doc->getHeight() + MENU_HEIGHT,
+				text.c_str()
+				};
+				new_win->end();
+				new_win->show();
 			}
-
 		}
 	}
 
@@ -73,20 +80,33 @@ public:
 		_image_box = new Fl_Box{ 0, 0, w, h };
 	}
 
-	~PpmWindow()
+	PpmWindow(PpmDocument* doc, int x, int y, int w, int h, const char* l) 
+		: PpmWindow(x, y, w, h, l)
 	{
-		delete _menu;
-		_menu = nullptr;
+		_doc = doc;
+		_image_box->image(new Fl_RGB_Image(&_doc->getRawBytes()[0], _doc->getWidth(), _doc->getHeight(), 3));
+		int width = max(MIN_WIDTH, _doc->getWidth());
+		size(width, _doc->getHeight() + MENU_HEIGHT);
+		_image_box->size(width, _doc->getHeight());
+		_image_box->position(0, MENU_HEIGHT);
+	}
+
+	virtual ~PpmWindow()
+	{
+		if (_menu != nullptr)
+		{
+			delete _menu;
+		}
+
+		if (_doc != nullptr)
+		{
+			delete _doc;
+		}
 	}
 
 	void loadImage()
 	{
-		if (_image != nullptr)
-		{
-			delete _image;
-		}
-		_image = new Fl_RGB_Image(&_doc->getRawBytes()[0], _doc->getWidth(), _doc->getHeight(), 3);
-		_image_box->image(_image);
+		_image_box->image(new Fl_RGB_Image(&_doc->getRawBytes()[0], _doc->getWidth(), _doc->getHeight(), 3));
 
 		//resize
 		int width = max(MIN_WIDTH, _doc->getWidth());
